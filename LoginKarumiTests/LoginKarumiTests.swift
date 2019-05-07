@@ -10,25 +10,36 @@ import XCTest
 @testable import LoginKarumi
 
 class LoginKarumiTests: XCTestCase {
+    
+    var time: MockTime!
 
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        time = MockTime()
     }
-
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func testGivenAOddTime_WhenLogoutIsInvoked_ThenLogoutIsEnabled() {
+        time.mockedTime = 2
+        
+        let logoutEnabled = logout(on: time)
+        
+        XCTAssertEqual(true, logoutEnabled)
     }
-
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    
+    func testGivenAValidCredentials_WhenLoginIsInvoked_ThenLoginIsEnabled() {
+        let emailString = "admin"
+        let passwordString = "admin"
+        
+        let loginEnabled = login(email: emailString, password: passwordString)
+        
+        XCTAssertEqual(true, loginEnabled)
     }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    func testGivenAInvalidCredentials_WhenLoginIsInvoked_ThenLoginIsDisabled() {
+        let emailString = "amin"
+        let passwordString = "admin"
+        
+        let loginEnabled = login(email: emailString, password: passwordString)
+        
+        XCTAssertEqual(false, loginEnabled)
     }
-
 }
